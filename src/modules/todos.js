@@ -12,25 +12,18 @@ let id = 3; // insert 가 호출 될 때마다 1씩 더해집니다.
 export const insert = createAction(INSERT, text => ({
   id: id++,
   text,
-  done: false,
+  checked: false,
 }));
 
 export const toggle = createAction(TOGGLE, id => id);
 export const remove = createAction(REMOVE, id => id);
 
 const initialState = {
-  input: '',
+  input: '입력하시오',
   todos: [
-    {
-      id: 1,
-      text: '리덕스 기초 배우기',
-      done: true,
-    },
-    {
-      id: 2,
-      text: '리액트와 리덕스 사용하기',
-      done: false,
-    },
+      { id: 0, text: ' 리액트 소개1', checked: false },
+      { id: 1, text: ' 리액트 소개2', checked: true },
+      { id: 2, text: ' 리액트 소개3', checked: false }
   ],
 };
 
@@ -47,7 +40,7 @@ const todos = handleActions(
     [TOGGLE]: (state, { payload: id }) =>
       produce(state, draft => {
         const todo = draft.todos.find(todo => todo.id === id);
-        todo.done = !todo.done;
+        todo.checked = !todo.checked;
       }),
     [REMOVE]: (state, { payload: id }) =>
       produce(state, draft => {
