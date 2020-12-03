@@ -1,16 +1,26 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import {  useSelector } from 'react-redux';
 import TodoListTemplate from './components/TodoListTemplate';
 import Form from './components/Form';
 import TodoItemList from './components/TodoItemList';
 import { changeInput, insert, toggle, remove } from './modules/todos';
+import useActions from './lib/useActions';
 
-function App({ input, todos,  changeInput, insert, toggle, remove }) {
+function App() {
+
+  const { input, todos } = useSelector(({ todos }) => ({
+    input: todos.input,
+    todos: todos.todos
+  }));
+  const [onChangeInput, onInsert, onToggle, onRemove] = useActions(
+    [changeInput, insert, toggle, remove],
+    []
+  );
 
   function handleKeyPress(e) {
     // 눌려진 키가 Enter 면 handleCreate 호출
     if (e.key === 'Enter') {
-      insert(input);
+      onInsert(input);
     }
   }
 
@@ -20,46 +30,43 @@ function App({ input, todos,  changeInput, insert, toggle, remove }) {
         <Form
           input={input}
           onKeyPress={handleKeyPress}
-          onChangeInput={changeInput}
+          onChangeInput={onChangeInput}
           // onCreate={handleCreate}
-          onCreate={insert}
+          onCreate={onInsert}
         />
       }
     >
       <TodoItemList
         todos={todos}
-        onToggle={toggle}
+        onToggle={onToggle}
         //onRemove={handleRemove}
-        onRemove={remove}
+        onRemove={onRemove}
       />
     </TodoListTemplate>
   );
 }
 
-const mapStateToProps = state => ({
-  todos: state.todos.todos,
-  input: state.todos.input
-})
+// const mapStateToProps = state => ({
+//   todos: state.todos.todos,
+//   input: state.todos.input
+// })
 
 
-const mapDispatchToProps = (dispatch) => ({
-    changeInput: (todos) => {
-      dispatch(changeInput(todos));
-    },
-    insert: (input) => {
-      dispatch(insert(input));
-    },
-    toggle: (todos) => {
-      dispatch(toggle(todos));
-    },
-    remove: (todos) => {
-      dispatch(remove(todos));
-    },
-});
+// const mapDispatchToProps = (dispatch) => ({
+//     changeInput: (todos) => {
+//       dispatch(changeInput(todos));
+//     },
+//     insert: (input) => {
+//       dispatch(insert(input));
+//     },
+//     toggle: (todos) => {
+//       dispatch(toggle(todos));
+//     },
+//     remove: (todos) => {
+//       dispatch(remove(todos));
+//     },
+// });
 
 
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(App);
+export default App;

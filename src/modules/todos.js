@@ -31,7 +31,7 @@ export const remove = id => ({
 });
 
 const initialState = {
-  input: '',
+  input: 'a',
   todos: [
       { id: 0, text: ' 리액트 소개1', checked: false },
       { id: 1, text: ' 리액트 소개2', checked: true },
@@ -50,6 +50,7 @@ function todos (state = initialState, action){
     case INSERT:
       return {
         ...state,
+        input:'',
         todos: state.todos.concat(action.todo)
       };
     case TOGGLE:
