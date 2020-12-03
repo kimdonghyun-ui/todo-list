@@ -42,8 +42,7 @@ const mapStateToProps = state => ({
 })
 
 
-const mapDispatchToProps = (dispatch) => {
-  return {
+const mapDispatchToProps = (dispatch) => ({
     changeInput: (todos) => {
       dispatch(changeInput(todos));
     },
@@ -56,8 +55,7 @@ const mapDispatchToProps = (dispatch) => {
     remove: (todos) => {
       dispatch(remove(todos));
     },
-  };
-};
+});
 
 
 
